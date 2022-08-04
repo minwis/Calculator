@@ -47,9 +47,6 @@ public class Test {
             System.out.println("#" + (++tc) + " Pass");
         }
 
-
-
-
         // set
         int len_int = 10;
         int len_point = 5;

@@ -14,6 +14,9 @@ public class BigValue {
         return b_len;
     }
 
+
+
+    //Used for saving digits in arrays and determine the number is negative or positive.
     public BigValue(String s) {
         int start = 0;
         if ( s.charAt(0) == '-' ) {
@@ -23,7 +26,6 @@ public class BigValue {
         else if ( s.charAt(0) == '+' ) {
             start = 1;
         }
-
 
         int i = start;
         String IntPart = "";
@@ -54,6 +56,9 @@ public class BigValue {
         }
     }
 
+
+
+    //Used for determining digits if the number is given.
     public int getDigit(int i) {
         if ( 0 <= i && i < a.length  ) {
             return a[a_len - i - 1];
@@ -68,10 +73,7 @@ public class BigValue {
 
 
 
-
-
-
-
+    //Used for making a number by combining digits.
     public BigValue(int len_int, int len_point) {
         a_len = len_int;
         b_len = len_point;
@@ -79,11 +81,13 @@ public class BigValue {
         b = new int[len_point];
     }
 
+
     public void setMinus(boolean b) {
         if ( b == true ) {
             plus_minus = true;
         }
     }
+
 
     public void setDigit(int position, int n) {
         if ( position < 0 ) {
@@ -93,6 +97,7 @@ public class BigValue {
             a[a_len - position - 1] = n;
         }
     }
+
 
     public String getString() {
         String output = "";
@@ -124,8 +129,5 @@ public class BigValue {
 
         return output;
     }
-
-
-
 
 }
