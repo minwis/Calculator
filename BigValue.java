@@ -1,9 +1,10 @@
+
 public class BigValue {
 
     public boolean plus_minus = false;
-    public int a_len = 0;
-    public int b_len = 0;
-    public int[] a = null;
+    public int a_len;
+    public int b_len;
+    public int[] a;
     public int[] b = null;
 
     public boolean isMinus() {return plus_minus;}
@@ -39,19 +40,20 @@ public class BigValue {
             a[I] = IntPart.charAt(I) - '0';
         }
 
-        if ( i == s.length() ) {
+        if ( i - start == s.length() - start ) {
             b_len = 0;
+            return;
         }
         else {
-            b_len = s.length() - i - start;
+            b_len = s.length() - i - 1;
+            b = new int[b_len];
         }
 
-        b = new int[b_len];
-
         int j = 0;
-        while ( j < b_len ) {
-            i++;
+        i++;
+        while ( j < b.length ) {
             b[j] = s.charAt(i) - '0';
+            i++;
             j++;
         }
     }
@@ -61,9 +63,9 @@ public class BigValue {
     //Used for determining digits if the number is given.
     public int getDigit(int i) {
         if ( 0 <= i && i < a.length  ) {
-            return a[a_len - i - 1];
+            return a[a.length - i - 1];
         }
-        else if ( i < 0 && -i < b.length ) {
+        else if ( i < 0 && b != null && -i <= b.length ) {
             return b[-i - 1];
         }
         else {
@@ -94,7 +96,7 @@ public class BigValue {
             b[-position - 1] = n;
         }
         else {
-            a[a_len - position - 1] = n;
+            a[a.length - position - 1] = n;
         }
     }
 
@@ -114,20 +116,58 @@ public class BigValue {
             i++;
         }
 
-        i = b_len - 1;
-        while ( b[i] == 0 ) {
-            i--;
+        if ( b_len == 0 ) {
         }
-        if ( i != 0 ) {
+        else {
+            i = b_len - 1;
+            while ( b[i] == 0 ) {
+                i--;
+            }
             output += ".";
+            int j = 0;
+            while ( j <= i ) {
+                output += b[j];
+                j++;
+            }
         }
-        int j = 0;
-        while ( 0 <= j && j <= i ) {
-            output += b[j];
-            j++;
-        }
-
         return output;
     }
+
+
+    public BigValue Add(BigValue v) {
+        int max = 0;
+        int min = 0;
+        if ( a_len < v.a_len ) {
+            max = v.a_len;
+        }
+        else {
+            max = a_len;
+        }
+
+        if ( b_len < v.b_len ) {
+            min = v.b_len;
+        }
+        else {
+            min = b_len;
+        }
+
+        BigValue v3 = new BigValue(max, min);
+        int ten = 0;
+
+        for (int i = -min; i < max; i++) {
+            int d1 = getDigit(i);
+            int d2 = v.getDigit(i);
+            int n = d1+d2 + ten;
+            if ( i == max - 1 ) {
+                v3.setDigit(i, n);
+            }
+            else {
+                v3.setDigit(i, n % 10);
+                ten = n / 10;
+            }
+        }
+        return v3;
+    }
+
 
 }

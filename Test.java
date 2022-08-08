@@ -1,12 +1,9 @@
-import javax.swing.*;
 
 public class Test {
     public static int tc = 0;
 
     public static void PrintBigVaule(BigValue v) {
-        System.out.println("minus:" + v.isMinus()
-                + " int:" + v.getIntLen()
-                + " pt:" + v.getPointLen());
+        System.out.println("minus:" + v.isMinus() + " int:" + v.getIntLen() + " pt:" + v.getPointLen());
     }
 
     public static void CheckBigVaule(BigValue v, boolean is_minus, int i, int p) {
@@ -28,16 +25,19 @@ public class Test {
         CheckBigVaule(new BigValue("12345"), false, 5, 0);
         CheckBigVaule(new BigValue("-22"), true, 2, 0);
         CheckBigVaule(new BigValue("+3.456"), false, 1, 3);
-        CheckBigVaule(new BigValue("-44.000"), true, 2, 3);
+        CheckBigVaule(new BigValue("32.359"), false, 2, 3);
         CheckBigVaule(new BigValue("-123.456"), true, 3, 3);
 
         // get
         System.out.println("Get");
-        BigValue v = new BigValue("-123.456");
+        BigValue v = new BigValue("-431.4992");
         if (v.getDigit(100) == 0) {
             System.out.println("#" + (++tc) + " Pass");
         }
-        if (v.getDigit(0) == 3) {
+        if (v.getDigit(0) == 1) {
+            System.out.println("#" + (++tc) + " Pass");
+        }
+        if (v.getDigit(2) == 4) {
             System.out.println("#" + (++tc) + " Pass");
         }
         if (v.getDigit(-1) == 4) {
@@ -48,7 +48,7 @@ public class Test {
         }
 
         // set
-        int len_int = 10;
+        /*int len_int = 10;
         int len_point = 5;
         v = new BigValue(len_int, len_point);
         v.setMinus(true);
@@ -64,7 +64,27 @@ public class Test {
                 System.out.print("#" + (++tc) + " Fail : " + v.getString());
             }
         }
-        System.out.println("#" + (++tc) + " Pass");
+        System.out.println("#" + (++tc) + " Pass");*/
+
+        System.out.println("Addition");
+        TestAdd(tc++,"12345","56789","69134");
+        TestAdd(tc++,"88","1000","1088");
+        TestAdd(tc++,"0","123.45","123.45");
+        TestAdd(tc++,"123.45","56.789","180.239");
+        TestAdd(tc++,"9999999999.9","0.9","10000000000.8");
+
+    }
+
+    private static void TestAdd(int tc, String s1, String s2, String answer) {
+        BigValue v1 = new BigValue(s1);
+        BigValue v2 = new BigValue(s2);
+        BigValue v3 = v1.Add(v2);
+        if (v3.getString().equals(answer)) {
+            System.out.println("#" + (tc) + " Pass");
+        } else {
+            System.out.println("#" + (tc) + " Fail " + answer + " != " + v3.getString());
+        }
+
     }
 
 }
