@@ -6,6 +6,8 @@ public class BigValue {
     public int b_len;
     public int[] a;
     public int[] b = null;
+    public int max = 0;
+    public int min = 0;
 
     public boolean isMinus() {return plus_minus;}
     public int getIntLen() {
@@ -133,23 +135,30 @@ public class BigValue {
         return output;
     }
 
+    public int[] min_max(int a_len1, int a_len2, int b_len1, int b_len2) {
+        if ( a_len2 < a_len1 ) {
+            max = a_len1;
+        }
+        else {
+            max = a_len2;
+        }
+
+        if ( b_len2 < b_len1 ) {
+            min = b_len1;
+        }
+        else {
+            min = b_len2;
+        }
+
+        return new int[] {min, max};
+    }
+
+
 
     public BigValue Add(BigValue v) {
-        int max = 0;
-        int min = 0;
-        if ( a_len < v.a_len ) {
-            max = v.a_len;
-        }
-        else {
-            max = a_len;
-        }
 
-        if ( b_len < v.b_len ) {
-            min = v.b_len;
-        }
-        else {
-            min = b_len;
-        }
+        int min = min_max(v.a_len, a_len, v.b_len, b_len) [0];
+        int max = min_max(v.a_len, a_len, v.b_len, b_len) [1];
 
         BigValue v3 = new BigValue(max, min);
         int ten = 0;
@@ -170,4 +179,29 @@ public class BigValue {
     }
 
 
+    public BigValue Subtract(BigValue v) {
+        int min = min_max(v.a_len, a_len, v.b_len, b_len) [0];
+        int max = min_max(v.a_len, a_len, v.b_len, b_len) [1];
+
+        BigValue v3 = new BigValue(max, min);
+        int ten = 0;
+
+        for (int i = -min; i < max; i++) {
+            int d1 = getDigit(i);
+            int d2 = v.getDigit(i);
+            int n = d1 - d2;
+
+            if ( ten == 1 ) {
+                n -= ten;
+                ten = 0;
+            }
+
+            if ( n < 0 && i != max - 1 ) {
+                n += 10;
+                ten = 1;
+            }
+            v3.setDigit(i, n);
+        }
+        return v3;
+    }
 }

@@ -48,7 +48,7 @@ public class Test {
         }
 
         // set
-        /*int len_int = 10;
+        int len_int = 10;
         int len_point = 5;
         v = new BigValue(len_int, len_point);
         v.setMinus(true);
@@ -64,7 +64,7 @@ public class Test {
                 System.out.print("#" + (++tc) + " Fail : " + v.getString());
             }
         }
-        System.out.println("#" + (++tc) + " Pass");*/
+        System.out.println("#" + (++tc) + " Pass");
 
         System.out.println("Addition");
         TestAdd(tc++,"12345","56789","69134");
@@ -73,6 +73,9 @@ public class Test {
         TestAdd(tc++,"123.45","56.789","180.239");
         TestAdd(tc++,"9999999999.9","0.9","10000000000.8");
 
+        System.out.println("Subtraction");
+        TestSubtract(tc++,"5678","1239","4439");
+        TestSubtract(tc++,"1234","5678","-4444");
     }
 
     private static void TestAdd(int tc, String s1, String s2, String answer) {
@@ -84,7 +87,17 @@ public class Test {
         } else {
             System.out.println("#" + (tc) + " Fail " + answer + " != " + v3.getString());
         }
+    }
 
+    private static void TestSubtract(int tc, String s1, String s2, String answer) {
+        BigValue v1 = new BigValue(s1);
+        BigValue v2 = new BigValue(s2);
+        BigValue v3 = v1.Subtract(v2);
+        if (v3.getString().equals(answer)) {
+            System.out.println("#" + (tc) + " Pass");
+        } else {
+            System.out.println("#" + (tc) + " Fail " + answer + " != " + v3.getString());
+        }
     }
 
 }
