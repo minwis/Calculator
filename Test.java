@@ -76,6 +76,10 @@ public class Test {
         System.out.println("Subtraction");
         TestSubtract(tc++,"5678","1239","4439");
         TestSubtract(tc++,"1234","5678","-4444");
+        TestSubtract(tc++,"314.1592","56.78","257.3792");
+        TestSubtract(tc++,"143.3108","3808.19","-3664.8792");
+        TestSubtract(tc++,"1234","56.78","1177.22");
+        TestSubtract(tc++, "1353", "1353.98", "-0.98");
     }
 
     private static void TestAdd(int tc, String s1, String s2, String answer) {
