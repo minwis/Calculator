@@ -1,8 +1,6 @@
 
 public class BigValue {
 
-    public static boolean Switch = false;
-
     public boolean plus_minus = false;
     public int a_len;
     public int b_len;
@@ -110,9 +108,6 @@ public class BigValue {
         if ( plus_minus == true ) {
             output = "-";
         }
-        if ( Switch ) {
-            output = "-";
-        }
 
         int i = 0;
         while ( a[i] == 0 && i < a.length - 1 ) {
@@ -158,59 +153,24 @@ public class BigValue {
         return new int[] {min, max};
     }
 
-    public int[] big_small(BigValue v1, BigValue v2) {
-        Switch = false;
-        int max = v1.a_len;
-        int min = v1.b_len;;
-        int same = 0;
-
+    public int Compare(BigValue v1, BigValue v2) {
         if ( v1.a_len < v2.a_len ) {
-            max = v2.a_len;
-            Switch = true;
+            return -1;
         }
         else if ( v1.a_len > v2.a_len ) {
-        }
-        else {
-            for ( int i = 0; i < max; i++ ) {
-                if ( v1.a[i] < v2.a[i] ) {
-                    max = v2.a_len;
-                    Switch = true;
-                    break;
-                }
-                else if ( v1.a[i] > v2.a[i] ) {
-                    break;
-                }
-                else {
-                    same++;
-                }
-            }
+            return 1;
         }
 
-        if ( v1.b_len < v2.b_len ) {
-            min = v2.b_len;
-            if (same == max) {
-                Switch = true;
+        int max = v1.a_len;
+        int min = -Math.max(v1.b_len, v2.b_len);
+        for ( int i = max - 1; i >= min; i-- ) {
+            if (v1.getDigit(i) < v2.getDigit (i)) {
+                return -1;
+            } else if (v1.getDigit(i) > v2.getDigit (i)) {
+                return 1;
             }
         }
-        else if ( v1.b_len > v2.b_len ) {
-        }
-        else {
-            for ( int i = 0; i < min; i++ ) {
-                if ( v1.b[i] < v2.b[i] ) {
-                    max = v2.b_len;
-                    if ( same == (max - 1) ) {
-                        Switch = true;
-                    }
-                    break;
-                }
-                else if ( v1.b[i] > v2.b[i] ) {
-                    break;
-                }
-            }
-        }
-
-
-        return new int[] {min,max};
+        return 0;
     }
 
 
@@ -240,35 +200,37 @@ public class BigValue {
 
     public BigValue Subtract(BigValue v) {
 
-
-        int min = big_small( this ,v) [0];
-        int max = big_small( this ,v ) [1];
+        BigValue big, small;
+        boolean is_minus;
+        if (Compare(this, v) > 0) {
+            big = this;
+            small = v;
+            is_minus = false;
+            min = Math.max(v.b_len, b_len);
+            max = Math.max(v.a_len, a_len);
+        } else {
+            big = v;
+            small = this;
+            is_minus = true;
+            min = Math.max(v.b_len, b_len);
+            max = Math.max(v.a_len, a_len);
+        }
 
         BigValue v3 = new BigValue(max, min);
         int ten = 0;
 
         for (int i = -min; i < max; i++) {
-            int d1 = getDigit(i);
-            int d2 = v.getDigit(i);
-            int n = 0;
-            if ( Switch ) {
-                n = d2 - d1;
-            }
-            else {
-                n = d1 - d2;
-            }
-
-            if ( ten == 1 ) {
-                n -= ten;
-                ten = 0;
-            }
+            int n = big.getDigit(i) - small.getDigit(i) - ten;
 
             if ( n < 0 && i != max - 1 ) {
                 n += 10;
                 ten = 1;
+            } else {
+                ten = 0;
             }
             v3.setDigit(i, n);
         }
+        v3.setMinus(is_minus);
         return v3;
     }
 }
