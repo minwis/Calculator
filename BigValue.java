@@ -233,4 +233,43 @@ public class BigValue {
         v3.setMinus(is_minus);
         return v3;
     }
+
+
+    public String Multiply(BigValue v) {
+
+        int array_len = b_len + v.b_len + a_len + v.a_len;
+        int[] array = new int[array_len];
+
+        int I = -1;
+        for ( int i = -v.b_len; i < v.a_len; i++ ) {
+            int up = 0;
+            int J = 0;
+            I++;
+            for ( int j = -b_len; j < a_len; j++ ) {
+                J++;
+                int a = getDigit(j);
+                int b = v.getDigit(i);
+                int n = a * b + up + array[array_len - J - I];
+
+                if ( 10 < n ) {
+                    up = n / 10;
+                    n %= 10;
+                }
+                else {
+                    up = 0;
+                }
+                array[array_len - J - I] = n;
+            }
+            array[array_len - J - I - 1] += up;
+        }
+
+        String output = "";
+        for ( int i = 0; i < array_len; i++ ) {
+            if ( i == a_len + v.a_len ) {
+                output += ".";
+            }
+            output += array[i];
+        }
+        return output;
+    }
 }
