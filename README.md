@@ -1,7 +1,7 @@
 # Calculator
 
 -Plan-
-1. Arithmetic operation
+Arithmetic operation
 
 Addition✓
 
@@ -12,13 +12,13 @@ Multiplication✓
 Division
 
 
-2. Simplify linear polynomials
+Simplify linear polynomials
 
 
-3. Solve linear equations
+Solve linear equations
 
 
-4. Simplify quadratic polynomials
+Simplify quadratic polynomials
 
 
-5. Solve quadratic equations
+Solve quadratic equations
