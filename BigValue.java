@@ -6,6 +6,9 @@ public class BigValue {
     public int b_len;
     public int[] a;
     public int[] b = null;
+    public int[] array;
+    public String output = "";
+    public int array_length;
     public int max = 0;
     public int min = 0;
 
@@ -83,6 +86,12 @@ public class BigValue {
         b_len = len_point;
         a = new int[len_int];
         b = new int[len_point];
+    }
+
+    public BigValue(int[] digits, String Output, int array_len) {
+        array = digits;
+        output = Output;
+        array_length = array_len;
     }
 
 
@@ -235,8 +244,7 @@ public class BigValue {
     }
 
 
-    public String Multiply(BigValue v) {
-
+    public BigValue Multiply(BigValue v) { //BigValue로 리턴.
         int array_len = b_len + v.b_len + a_len + v.a_len;
         int[] array = new int[array_len];
 
@@ -247,10 +255,7 @@ public class BigValue {
             I++;
             for ( int j = -b_len; j < a_len; j++ ) {
                 J++;
-                int a = getDigit(j);
-                int b = v.getDigit(i);
-                int n = a * b + up + array[array_len - J - I];
-
+                int n = getDigit(j) * v.getDigit(i) + up + array[array_len - J - I];
                 if ( 10 < n ) {
                     up = n / 10;
                     n %= 10;
@@ -270,6 +275,8 @@ public class BigValue {
             }
             output += array[i];
         }
-        return output;
+
+        BigValue v3 = new BigValue(array, output, array_len);
+        return v3;
     }
 }
