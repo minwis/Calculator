@@ -3,13 +3,9 @@
 -Plan-
 
 Arithmetic operation
-
 Addition✓
-
 Subtraction✓
-
 Multiplication✓
-
 Division
 
 
