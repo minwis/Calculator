@@ -84,6 +84,9 @@ public class Test {
         TestMultiply(tc++,"314.89","9.126","2873.68614");
         TestMultiply(tc++,"9","6","54");
 
+        System.out.println("\n" + "Division");
+        TestDivide(tc++,"314.89","9.126","34.50");
+
     }
 
     private static void TestAdd(int tc, String s1, String s2, String answer) {
@@ -111,10 +114,21 @@ public class Test {
     private static void TestMultiply(int tc, String s1, String s2, String answer) {
         BigValue v1 = new BigValue(s1);
         BigValue v2 = new BigValue(s2);
-        if (v1.Multiply(v2).output.equals(answer)) {
+        BigValue v3 = v1.Multiply(v2);
+        if (v3.getString().equals(answer)) {
             System.out.println("#" + (tc) + " Pass");
         } else {
-            System.out.println("#" + (tc) + " Fail " + answer + " != " + v1.Multiply(v2).output);
+            System.out.println("#" + (tc) + " Fail " + answer + " != " + v3.getString());
+        }
+    }
+
+    private static void TestDivide(int tc, String s1, String s2, String answer) {
+        BigValue v1 = new BigValue(s1);
+        BigValue v2 = new BigValue(s2);
+        if (v1.Divide(v2).output.equals(answer)) {
+            System.out.println("#" + (tc) + " Pass");
+        } else {
+            System.out.println("#" + (tc) + " Fail " + answer + " != " + v1.Divide(v2).output);
         }
     }
 
