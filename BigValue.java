@@ -74,10 +74,10 @@ public class BigValue {
         }
 
         v.output = output;
+        v.a_len += v.b_len;
+        v.a = new int[v.a_len];
         v.b_len = 0;
         v.b = null;
-        v.a_len = a_len + b_len - 1;
-        v.a = new int[v.a_len];
 
         for ( int i = 0;  i < v.a_len; i++ ) {
             v.a[i] = output.charAt(i) - '0';
@@ -104,12 +104,6 @@ public class BigValue {
         b_len = len_point;
         a = new int[len_int];
         b = new int[len_point];
-    }
-
-    public BigValue(int[] digits, String Output, int array_len) {
-        array = digits;
-        output = Output;
-        array_length = array_len;
     }
 
 
@@ -176,20 +170,6 @@ public class BigValue {
         return new int[]{min, max};
     }
 
-    public int compare (BigValue v1, BigValue v2) {
-        int max = v1.a_len;
-        int min = -Math.max(v1.b_len, v2.b_len);
-        int Return = 0;
-        for (int i = max - 1; i >= min; i--) {
-            if (v1.getDigit(i) < v2.getDigit(i)) {
-                Return =  -1;
-            } else if (v1.getDigit(i) > v2.getDigit(i)) {
-                Return = 1;
-            }
-        }
-        return Return;
-    }
-
     public int Compare(BigValue v1, BigValue v2) {
         if (v1.a_len < v2.a_len) {
             return -1;
@@ -206,19 +186,6 @@ public class BigValue {
             }
         }
         return 0;
-    }
-
-
-    public int Compare2(BigValue v1, BigValue v2) {
-        if ( v1.a_len + v1.b_len < v2.a_len + v2.b_len ) {
-            return -1;
-        }
-        else if ( v1.a_len + v1.b_len > v2.a_len + v2.b_len ) {
-            return 1;
-        }
-        else {
-            return compare(v1, v2);
-        }
     }
 
 
@@ -293,8 +260,10 @@ public class BigValue {
             I++;
             for (int j = -b_len; j < a_len; j++) {
                 J++;
-                int n = getDigit(j) * v.getDigit(i) + up + array[array_len - J - I];
-                if (10 < n && j != a_len - 1) {
+                int a = getDigit(j);
+                int b = v.getDigit(i);
+                int n = a * b + up + array[array_len - J - I];
+                if (10 <= n && j != a_len - 1) {
                     up = n / 10;
                     n %= 10;
                 } else {
@@ -322,32 +291,36 @@ public class BigValue {
         String respond = "";
         String divided = "";
 
-        for (int i = a_len-1; i >= -3; i--) { //한 번씩 빼는 걸로 계산하기로 한다.
-            if ( a_len - v.a_len == 0 ) {
-                respond += ".";
-            }
+        for (int i = a_len-1; i >= -10; i--) {
             divided += String.valueOf(getDigit(i));
             BigValue Divided = new BigValue(divided);
-            //1번 argument가 클 경우에는 1을, 2번 argument가 클 경우에는 -1.완전히 똑같으면 0.
-            if ( Compare2(Divided, v) < 0 ) {
+            BigValue invert_v = invert(v);
+
+            if ( Compare(Divided, invert_v) < 0 ) {
                 respond += "0";
             }
             else {
-                BigValue v_invert = invert(v);
                 for ( int j = 1; j <= 9; j++ ) {
-                    BigValue J = new BigValue(String.valueOf(j));
-                    BigValue Dividing = invert(v.Multiply(J));
-                    BigValue v_Dividing = Divided.Subtract(Dividing);
-                    ;
-                    if ( Compare2(v_Dividing, v_invert) < 0 ) {
+                    BigValue J = new BigValue(String.valueOf(j)); //j의 value
+                    BigValue multiply = v.Multiply(J);
+                    BigValue Dividing = invert(multiply); //나누는 수 * j
+                    BigValue v_Dividing = invert(Divided.Subtract(Dividing)); //나눠지는 수 - (나누는 수 * j)
+
+                    //쓸 때 없는 0이 붙어있을 경우를 처리. ex) 000009 => 9
+                    String a = v_Dividing.getString();
+                    BigValue v_Dividing2 = new BigValue(a);
+
+                    if ( Compare(v_Dividing2, invert_v) < 0 ) {
                         respond += String.valueOf(j);
                         divided = v_Dividing.getString();
+                        break;
                     }
                 }
             }
+
+
         }
         //반올림 소스코드, 분수로 바꾸는 소스코드, 몫과 나머지 소스코드 만들어야 함.
-
 
         BigValue V = new BigValue(respond);
         V.output = respond;

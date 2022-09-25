@@ -83,9 +83,12 @@ public class Test {
         System.out.println("\n" + "Multiplication");
         TestMultiply(tc++,"314.89","9.126","2873.68614");
         TestMultiply(tc++,"9","6","54");
+        TestMultiply(tc++,"9","0","0");
 
         System.out.println("\n" + "Division");
+        TestDivide(tc++,"9.126","314.89","0.02898");
         TestDivide(tc++,"314.89","9.126","34.50");
+
 
     }
 
