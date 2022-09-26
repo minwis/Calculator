@@ -6,9 +6,7 @@ public class BigValue {
     public int b_len;
     public int[] a;
     public int[] b = null;
-    public int[] array;
     public String output = "";
-    public int array_length;
     public int max = 0;
     public int min = 0;
 
@@ -83,6 +81,30 @@ public class BigValue {
             v.a[i] = output.charAt(i) - '0';
         }
 
+        return v;
+    }
+
+    public BigValue invert(BigValue v, int add2) {
+        String output = "";
+        for ( int i = 0; i < v.a_len; i++ ) {
+            output += String.valueOf(v.a[i]);
+        }
+        for ( int i = 0; i < v.b_len; i++ ) {
+            output += String.valueOf(v.b[i]);
+        }
+        for ( int i = 0; i < add2; i++ ) {
+            output += "0";
+        }
+
+        v.output = output;
+        v.a_len += (v.b_len + add2);
+        v.a = new int[v.a_len];
+        v.b_len = 0;
+        v.b = null;
+
+        for ( int i = 0;  i < v.a_len; i++ ) {
+            v.a[i] = output.charAt(i) - '0';
+        }
 
         return v;
     }
@@ -293,18 +315,24 @@ public class BigValue {
         String divided = "";
 
         int c = -1; //used for calculating decimal point.
-        int add = 0;
+        int add1 = 0;
+        int add2 = 0;
         if ( b_len < v.b_len ) {
-            add = v.b_len - b_len;
+            add1 = v.b_len - b_len;
         }
-        for (int i = a_len - 1; i >= -10; i--) {
+        else if ( b_len > v.b_len ) {
+            add2 = b_len - v.b_len;
+        }
+
+        invert(v, add2);
+
+        for (int i = a_len - 1; i >= -10 - add2; i--) {
             c++;
             divided += String.valueOf(getDigit(i));
             BigValue Divided = new BigValue(divided);
-            invert(v);
 
             //decimal point
-            if ( c == a_len + b_len + add ) {
+            if ( c == a_len + b_len + add1 ) {
                 respond += ".";
             }
 
