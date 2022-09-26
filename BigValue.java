@@ -307,9 +307,6 @@ public class BigValue {
 
     public BigValue Divide(BigValue v) {
 
-        String respond = "";
-        String divided = "";
-
         int add1 = 0;
         int add2 = 0;
         if ( b_len < v.b_len ) {
@@ -319,10 +316,16 @@ public class BigValue {
             add2 = b_len - v.b_len;
         }
 
+        String respond = "";
+        int max = a_len + b_len + add1 + 3;//제일 마지막에 나온 상수 수정=>소수점 아래에 있는 숫자들의 length 수정.
+        int[] arr = new int[max];
+        String divided = "";
+
         invert(v, add2);
-        
+
         int i = a_len - 1;
-        for (int c = 0; c < a_len + b_len + add1 + 2; c++) { //소수점 2번째 자리까지 계산.
+
+        for (int c = 0; c < max; c++) {
             divided += String.valueOf(getDigit(i));
             BigValue Divided = new BigValue(divided);
 
@@ -333,6 +336,7 @@ public class BigValue {
 
             if ( Compare(Divided, v) < 0 ) {
                 respond += "0";
+                arr[c] = 0;
             }
             else {
                 for ( int j = 1; j <= 9; j++ ) {
@@ -346,8 +350,17 @@ public class BigValue {
                     BigValue v_Dividing2 = new BigValue(a);
 
                     if ( Compare(v_Dividing2, v) < 0 ) {
-                        respond += String.valueOf(j);
-                        divided = v_Dividing.getString();
+                        if ( c == max - 1 ) {
+                            if ( 5 <= j ) {
+                                arr[c - 1]+=1;
+                            }
+                            respond += "0";
+                            arr[c] = 0;
+                        }
+                        else {
+                            arr[c] = j;
+                            divided = v_Dividing.getString();
+                        }
                         break;
                     }
                 }
