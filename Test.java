@@ -86,9 +86,12 @@ public class Test {
         TestMultiply(tc++,"9","0","0");
 
         System.out.println("\n" + "Division");
-        TestDivide(tc++,"9.126","314.89","0.02898");
-        TestDivide(tc++,"314.89","9.126","34.50");
-
+        TestDivide(tc++,"9.126","314.89","0.02898154"); // = 9126(9.126 * 10^3) / 314890
+        TestDivide(tc++,"314.89","9.126","34.5047118"); // = 31489(314.89 * 10^2) / 912.6
+        TestDivide(tc++, "3", "4", "0.75");
+        TestDivide(tc++, "1", "3", "0.3333333333");
+        TestDivide(tc++, "9", "9", "1");
+        //TestDivide(tc++, "9", "0", "(any number)");
 
     }
 
@@ -126,12 +129,17 @@ public class Test {
     }
 
     private static void TestDivide(int tc, String s1, String s2, String answer) {
+        if ( s2.equals("0") ) {
+            System.out.println("#" + (tc) + " You cannot divide a number with 0");
+            return;
+        }
         BigValue v1 = new BigValue(s1);
         BigValue v2 = new BigValue(s2);
-        if (v1.Divide(v2).output.equals(answer)) {
+        BigValue v3 = v1.Divide(v2);
+        if (v3.getString().equals(answer)) {
             System.out.println("#" + (tc) + " Pass");
         } else {
-            System.out.println("#" + (tc) + " Fail " + answer + " != " + v1.Divide(v2).output);
+            System.out.println("#" + (tc) + " Fail " + answer + " != " + v3.getString() + " or " + v3.output);
         }
     }
 

@@ -83,6 +83,7 @@ public class BigValue {
             v.a[i] = output.charAt(i) - '0';
         }
 
+
         return v;
     }
 
@@ -291,12 +292,23 @@ public class BigValue {
         String respond = "";
         String divided = "";
 
-        for (int i = a_len-1; i >= -10; i--) {
+        int c = -1; //used for calculating decimal point.
+        int add = 0;
+        if ( b_len < v.b_len ) {
+            add = v.b_len - b_len;
+        }
+        for (int i = a_len - 1; i >= -10; i--) {
+            c++;
             divided += String.valueOf(getDigit(i));
             BigValue Divided = new BigValue(divided);
-            BigValue invert_v = invert(v);
+            invert(v);
 
-            if ( Compare(Divided, invert_v) < 0 ) {
+            //decimal point
+            if ( c == a_len + b_len + add ) {
+                respond += ".";
+            }
+
+            if ( Compare(Divided, v) < 0 ) {
                 respond += "0";
             }
             else {
@@ -310,7 +322,7 @@ public class BigValue {
                     String a = v_Dividing.getString();
                     BigValue v_Dividing2 = new BigValue(a);
 
-                    if ( Compare(v_Dividing2, invert_v) < 0 ) {
+                    if ( Compare(v_Dividing2, v) < 0 ) {
                         respond += String.valueOf(j);
                         divided = v_Dividing.getString();
                         break;
@@ -318,12 +330,12 @@ public class BigValue {
                 }
             }
 
-
         }
         //반올림 소스코드, 분수로 바꾸는 소스코드, 몫과 나머지 소스코드 만들어야 함.
 
         BigValue V = new BigValue(respond);
-        V.output = respond;
-        return V;
+        BigValue Return = new BigValue(V.getString());
+        Return.output = respond;
+        return Return;
     }
 }
