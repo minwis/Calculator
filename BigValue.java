@@ -310,7 +310,6 @@ public class BigValue {
         String respond = "";
         String divided = "";
 
-        int c = -1; //used for calculating decimal point.
         int add1 = 0;
         int add2 = 0;
         if ( b_len < v.b_len ) {
@@ -321,9 +320,9 @@ public class BigValue {
         }
 
         invert(v, add2);
-
-        for (int i = a_len - 1; i >= -10 - add2; i--) {
-            c++;
+        
+        int i = a_len - 1;
+        for (int c = 0; c < a_len + b_len + add1 + 2; c++) { //소수점 2번째 자리까지 계산.
             divided += String.valueOf(getDigit(i));
             BigValue Divided = new BigValue(divided);
 
@@ -353,7 +352,7 @@ public class BigValue {
                     }
                 }
             }
-
+            i--;
         }
         //반올림 소스코드, 분수로 바꾸는 소스코드, 몫과 나머지 소스코드 만들어야 함.
 
