@@ -84,7 +84,7 @@ public class BigValue {
         return v;
     }
 
-    public BigValue invert(BigValue v, int add2) {
+    public void invert(BigValue v, int add2) {
         String output = "";
         for ( int i = 0; i < v.a_len; i++ ) {
             output += String.valueOf(v.a[i]);
@@ -106,7 +106,6 @@ public class BigValue {
             v.a[i] = output.charAt(i) - '0';
         }
 
-        return v;
     }
 
     //Used for determining digits if the position numbers are given.
@@ -131,7 +130,7 @@ public class BigValue {
 
 
     public void setMinus(boolean b) {
-        if (b == true) {
+        if (b) {
             plus_minus = true;
         }
     }
@@ -148,7 +147,7 @@ public class BigValue {
 
     public String getString() {
         String output = "";
-        if (plus_minus == true) {
+        if (plus_minus) {
             output = "-";
         }
 
@@ -161,8 +160,7 @@ public class BigValue {
             i++;
         }
 
-        if (b_len == 0) {
-        } else {
+        if ( b_len != 0 ) {
             i = b_len - 1;
             while (b[i] == 0) {
                 i--;
@@ -243,15 +241,13 @@ public class BigValue {
             big = v;
             small = this;
             is_minus = true;
-            min = Math.max(v.b_len, b_len);
-            max = Math.max(v.a_len, a_len);
         } else {
             big = this;
             small = v;
             is_minus = false;
-            min = Math.max(v.b_len, b_len);
-            max = Math.max(v.a_len, a_len);
         }
+        min = Math.max(v.b_len, b_len);
+        max = Math.max(v.a_len, a_len);
 
         BigValue v3 = new BigValue(max, min);
         int ten = 0;

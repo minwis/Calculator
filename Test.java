@@ -2,28 +2,28 @@
 public class Test {
     public static int tc = 0;
 
-    public static void PrintBigVaule(BigValue v) {
+    public static void PrintBigValue(BigValue v) {
         System.out.println("minus:" + v.isMinus() + " int:" + v.getIntLen() + " pt:" + v.getPointLen());
     }
 
-    public static void CheckBigVaule(BigValue v, boolean is_minus, int i, int p) {
+    public static void CheckBigValue(BigValue v, boolean is_minus, int i, int p) {
         System.out.print("#" + (++tc) + " ");
         if (v.isMinus() == is_minus && v.getIntLen() == i && v.getPointLen() == p) {
             System.out.println("Pass");
             return;
         }
         System.out.print("Fail : ");
-        PrintBigVaule(v);
+        PrintBigValue(v);
     }
     public static void main(String args[]) {
 
         //Parsing Test
         System.out.println("Parsing Test");
-        CheckBigVaule(new BigValue("12345"), false, 5, 0);
-        CheckBigVaule(new BigValue("-22"), true, 2, 0);
-        CheckBigVaule(new BigValue("+3.456"), false, 1, 3);
-        CheckBigVaule(new BigValue("32.359"), false, 2, 3);
-        CheckBigVaule(new BigValue("-123.456"), true, 3, 3);
+        CheckBigValue(new BigValue("12345"), false, 5, 0);
+        CheckBigValue(new BigValue("-22"), true, 2, 0);
+        CheckBigValue(new BigValue("+3.456"), false, 1, 3);
+        CheckBigValue(new BigValue("32.359"), false, 2, 3);
+        CheckBigValue(new BigValue("-123.456"), true, 3, 3);
 
         // get
         System.out.println();
@@ -86,12 +86,12 @@ public class Test {
         TestMultiply(tc++,"9","0","0");
 
         System.out.println("\n" + "Division");
-        TestDivide(tc++,"9.126","314.89","0.02898154"); // = 9126(9.126 * 10^3) / 314890
-        TestDivide(tc++,"314.89","9.126","34.5047118"); // = 31489(314.89 * 10^2) / 912.6
+        TestDivide(tc++,"9.126","314.89","0.02898154");
+        TestDivide(tc++,"314.89","9.126","34.5047118");
         TestDivide(tc++, "3", "4", "0.75");
         TestDivide(tc++, "1", "3", "0.3333333333");
         TestDivide(tc++, "9", "9", "1");
-        //TestDivide(tc++, "9", "0", "(any number)");
+        TestDivide(tc++, "9", "0", "(any number)");
 
     }
 
