@@ -108,6 +108,23 @@ public class BigValue {
 
     }
 
+    public BigValue Round(BigValue v, int len_point) {
+        if ( v.b_len != 0 ) {
+            if (v.b[len_point - 1] >= 5) {
+                String add = "0.";
+                for (int i = 0; i < len_point - 1; i++) {
+                    add += "0";
+                }
+                add += String.valueOf(10 - v.b[len_point - 1]);
+                BigValue add_v = new BigValue(add);
+                v = v.Add(add_v);
+            } else {
+                v.b[len_point - 1] = 0;
+            }
+        }
+        return v;
+    }
+
     //Used for determining digits if the position numbers are given.
     public int getDigit(int i) {
         if (0 <= i && i < a.length) {
@@ -162,14 +179,18 @@ public class BigValue {
 
         if ( b_len != 0 ) {
             i = b_len - 1;
-            while (b[i] == 0) {
+            while (i >= 0 && b[i] == 0) {
                 i--;
             }
-            output += ".";
-            int j = 0;
-            while (j <= i) {
-                output += b[j];
-                j++;
+            if ( i == -1 ) {
+            }
+            else {
+                output += ".";
+                int j = 0;
+                while (j <= i) {
+                    output += b[j];
+                    j++;
+                }
             }
         }
         return output;
@@ -315,27 +336,21 @@ public class BigValue {
         else if ( b_len > v.b_len ) {
             add2 = b_len - v.b_len;
         }
-
-        String respond = "";
-        int max = a_len + b_len + add1 + 3;//제일 마지막에 나온 상수 수정=>소수점 아래에 있는 숫자들의 length 수정.
+        int len_point = 3; //이 정수를 바꾸면 몇 번째 자리에서 반올림 할 지를 바꿀 수 있음.
         String divided = "";
-        int[] save = new int[max];
 
         invert(v, add2);
 
         int a = a_len - 1;
 
-        for (int i = 0; i < max; i++) {
+        BigValue value = new BigValue(a_len + b_len + add1, len_point);
+
+        for (int i = 0; i < a_len + b_len + add1 + len_point; i++) {
             divided += String.valueOf(getDigit(a));
             BigValue Divided = new BigValue(divided);
 
-            //decimal point
-            if ( i == a_len + b_len + add1 ) {
-                respond += ".";
-            }
-
+            int digit = 0;
             if ( Compare(Divided, v) < 0 ) {
-                respond += "0";
             }
             else {
                 for ( int j = 1; j <= 9; j++ ) {
@@ -346,20 +361,25 @@ public class BigValue {
                     //쓸 때 없는 0이 붙어있을 경우를 처리. ex) 000009 => 9
                     String b = v_Dividing.getString();
                     BigValue v_Dividing2 = new BigValue(b);
+
                     if ( Compare(v_Dividing2, v) < 0 ) {
-                        respond += String.valueOf(j);
+                        digit = j;
                         divided = v_Dividing.getString();
                         break;
                     }
                 }
             }
+            if ( i < a_len + b_len + add1 ) {
+                value.a[i] = digit;
+            }
+            else {
+                value.b[i - a_len - b_len - add1 ] = digit;
+            }
             a--;
         }
         //반올림 소스코드, 분수로 바꾸는 소스코드, 몫과 나머지 소스코드 만들어야 함.
-        BigValue V;
-        V = new BigValue(respond);
-        BigValue Return = new BigValue(V.getString());
-        Return.output = respond;
-        return Return;
+
+        return Round(value, len_point);
+        //return v;
     }
 }

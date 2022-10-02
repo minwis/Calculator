@@ -139,7 +139,7 @@ public class Test {
         if (v3.getString().equals(answer)) {
             System.out.println("#" + (tc) + " Pass");
         } else {
-            System.out.println("#" + (tc) + " Fail " + answer + " != " + v3.getString() + " or " + v3.output);
+            System.out.println("#" + (tc) + " Fail " + answer + " != " + v3.getString());
         }
     }
 
