@@ -125,7 +125,7 @@ public class BigValue {
         return v;
     }
 
-    //Used for determining digits if the position numbers are given.
+
     public int getDigit(int i) {
         if (0 <= i && i < a.length) {
             return a[a.length - i - 1];
@@ -137,7 +137,6 @@ public class BigValue {
     }
 
 
-    //Used for making a number by combining digits.
     public BigValue(int len_int, int len_point) {
         a_len = len_int;
         b_len = len_point;
@@ -330,36 +329,30 @@ public class BigValue {
 
         int add1 = 0;
         int add2 = 0;
-        if ( b_len < v.b_len ) {
+        if ( b_len < v.b_len ) { //this에 0이 더해져야 할 경우
             add1 = v.b_len - b_len;
         }
-        else if ( b_len > v.b_len ) {
+        else if ( b_len > v.b_len ) { //v에 0이 더해져야 할 경우
             add2 = b_len - v.b_len;
         }
-        int len_point = 2; //이 정수를 바꾸면 몇 번째 자리에서 반올림 할 지를 바꿀 수 있음.
+        int len_point = 2; //이 정수를 바꾸면 몇 번째 자리까지 계산할지 정할 수 있음.
         String divided = "";
-
         invert(v, add2);
-
-        int a = a_len - 1;
-
+        int position = a_len - 1; //(this는 나누는 수.) divided가 this의 어떤 자리 숫자가 더해져야 하는지 그 위치.
         BigValue value = new BigValue(a_len + b_len + add1, len_point + 1);
 
         for (int i = 0; i < a_len + b_len + add1 + len_point + 1; i++) {
-            divided += String.valueOf(getDigit(a));
+            divided += String.valueOf(getDigit(position));
             BigValue Divided = new BigValue(divided);
-
             int digit = 0;
-            if ( Compare(Divided, v) < 0 ) {
-            }
-            else {
+
+            if ( Compare(Divided, v) >= 0 ) { //계산 파트
                 for ( int j = 1; j <= 9; j++ ) {
-                    BigValue J = new BigValue(String.valueOf(j)); //j의 value
+                    BigValue J = new BigValue(String.valueOf(j));
                     BigValue multiply = v.Multiply(J);
                     BigValue Dividing = invert(multiply); //나누는 수 * j
-                    BigValue v_Dividing = invert(Divided.Subtract(Dividing)); //나눠지는 수 - (나누는 수 * j)
-                    //쓸 때 없는 0이 붙어있을 경우를 처리. ex) 000009 => 9
-                    String b = v_Dividing.getString();
+                    BigValue v_Dividing = invert(Divided.Subtract(Dividing)); //나눠지는 수 - (나누는 수*j)
+                    String b = v_Dividing.getString(); //쓸 때 없는 0이 붙어있을 경우를 처리. ex) 000009 => 9
                     BigValue v_Dividing2 = new BigValue(b);
 
                     if ( Compare(v_Dividing2, v) < 0 ) {
@@ -369,17 +362,16 @@ public class BigValue {
                     }
                 }
             }
+
+            //저장 파트; setDigit을 어떻게 쓸 수 있을까요?
             if ( i < a_len + b_len + add1 ) {
                 value.a[i] = digit;
             }
             else {
                 value.b[i - a_len - b_len - add1 ] = digit;
             }
-            a--;
+            position--;
         }
-        //분수로 바꾸는 소스코드, 몫과 나머지 소스코드 만들어야 함.
-
         return Round(value, len_point + 1);
-        //return v;
     }
 }
