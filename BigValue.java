@@ -318,25 +318,24 @@ public class BigValue {
 
         String respond = "";
         int max = a_len + b_len + add1 + 3;//제일 마지막에 나온 상수 수정=>소수점 아래에 있는 숫자들의 length 수정.
-        int[] arr = new int[max];
         String divided = "";
+        int[] save = new int[max];
 
         invert(v, add2);
 
-        int i = a_len - 1;
+        int a = a_len - 1;
 
-        for (int c = 0; c < max; c++) {
-            divided += String.valueOf(getDigit(i));
+        for (int i = 0; i < max; i++) {
+            divided += String.valueOf(getDigit(a));
             BigValue Divided = new BigValue(divided);
 
             //decimal point
-            if ( c == a_len + b_len + add1 ) {
+            if ( i == a_len + b_len + add1 ) {
                 respond += ".";
             }
 
             if ( Compare(Divided, v) < 0 ) {
                 respond += "0";
-                arr[c] = 0;
             }
             else {
                 for ( int j = 1; j <= 9; j++ ) {
@@ -344,32 +343,21 @@ public class BigValue {
                     BigValue multiply = v.Multiply(J);
                     BigValue Dividing = invert(multiply); //나누는 수 * j
                     BigValue v_Dividing = invert(Divided.Subtract(Dividing)); //나눠지는 수 - (나누는 수 * j)
-
                     //쓸 때 없는 0이 붙어있을 경우를 처리. ex) 000009 => 9
-                    String a = v_Dividing.getString();
-                    BigValue v_Dividing2 = new BigValue(a);
-
+                    String b = v_Dividing.getString();
+                    BigValue v_Dividing2 = new BigValue(b);
                     if ( Compare(v_Dividing2, v) < 0 ) {
-                        if ( c == max - 1 ) {
-                            if ( 5 <= j ) {
-                                arr[c - 1]+=1;
-                            }
-                            respond += "0";
-                            arr[c] = 0;
-                        }
-                        else {
-                            arr[c] = j;
-                            divided = v_Dividing.getString();
-                        }
+                        respond += String.valueOf(j);
+                        divided = v_Dividing.getString();
                         break;
                     }
                 }
             }
-            i--;
+            a--;
         }
         //반올림 소스코드, 분수로 바꾸는 소스코드, 몫과 나머지 소스코드 만들어야 함.
-
-        BigValue V = new BigValue(respond);
+        BigValue V;
+        V = new BigValue(respond);
         BigValue Return = new BigValue(V.getString());
         Return.output = respond;
         return Return;
