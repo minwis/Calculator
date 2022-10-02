@@ -346,7 +346,7 @@ public class BigValue {
             BigValue Divided = new BigValue(divided);
             int digit = 0;
 
-            if ( Compare(Divided, v) >= 0 ) { //계산 파트
+            if ( Compare(Divided, v) >= 0 ) { //만약 Divided가 클 경우.
                 for ( int j = 1; j <= 9; j++ ) {
                     BigValue J = new BigValue(String.valueOf(j));
                     BigValue multiply = v.Multiply(J);

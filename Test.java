@@ -91,6 +91,8 @@ public class Test {
         TestDivide(tc++, "3", "4", "0.75");
         TestDivide(tc++, "1", "3", "0.33");
         TestDivide(tc++, "9", "9", "1");
+        TestDivide(tc++, "9", "3", "3");
+        TestDivide(tc++, "0.9", "1.7", "0.53");
         TestDivide(tc++, "9", "0", "(any number)");
 
     }
