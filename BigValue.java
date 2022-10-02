@@ -336,16 +336,16 @@ public class BigValue {
         else if ( b_len > v.b_len ) {
             add2 = b_len - v.b_len;
         }
-        int len_point = 3; //이 정수를 바꾸면 몇 번째 자리에서 반올림 할 지를 바꿀 수 있음.
+        int len_point = 2; //이 정수를 바꾸면 몇 번째 자리에서 반올림 할 지를 바꿀 수 있음.
         String divided = "";
 
         invert(v, add2);
 
         int a = a_len - 1;
 
-        BigValue value = new BigValue(a_len + b_len + add1, len_point);
+        BigValue value = new BigValue(a_len + b_len + add1, len_point + 1);
 
-        for (int i = 0; i < a_len + b_len + add1 + len_point; i++) {
+        for (int i = 0; i < a_len + b_len + add1 + len_point + 1; i++) {
             divided += String.valueOf(getDigit(a));
             BigValue Divided = new BigValue(divided);
 
@@ -377,9 +377,9 @@ public class BigValue {
             }
             a--;
         }
-        //반올림 소스코드, 분수로 바꾸는 소스코드, 몫과 나머지 소스코드 만들어야 함.
+        //분수로 바꾸는 소스코드, 몫과 나머지 소스코드 만들어야 함.
 
-        return Round(value, len_point);
+        return Round(value, len_point + 1);
         //return v;
     }
 }
