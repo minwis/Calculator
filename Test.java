@@ -108,6 +108,13 @@ public class Test {
         }
     }
 
+    public static String RunAdd(String s1, String s2) {
+        BigValue v1 = new BigValue(s1);
+        BigValue v2 = new BigValue(s2);
+        BigValue v3 = v1.Add(v2);
+        return v3.getString();
+    }
+
     private static void TestSubtract(int tc, String s1, String s2, String answer) {
         BigValue v1 = new BigValue(s1);
         BigValue v2 = new BigValue(s2);
@@ -119,6 +126,13 @@ public class Test {
         }
     }
 
+    public static String RunSubtract(String s1, String s2) {
+        BigValue v1 = new BigValue(s1);
+        BigValue v2 = new BigValue(s2);
+        BigValue v3 = v1.Subtract(v2);
+        return v3.getString();
+    }
+
     private static void TestMultiply(int tc, String s1, String s2, String answer) {
         BigValue v1 = new BigValue(s1);
         BigValue v2 = new BigValue(s2);
@@ -128,6 +142,13 @@ public class Test {
         } else {
             System.out.println("#" + (tc) + " Fail " + answer + " != " + v3.getString());
         }
+    }
+
+    public static String RunMultiply(String s1, String s2) {
+        BigValue v1 = new BigValue(s1);
+        BigValue v2 = new BigValue(s2);
+        BigValue v3 = v1.Multiply(v2);
+        return v3.getString();
     }
 
     private static void TestDivide(int tc, String s1, String s2, String answer) {
@@ -143,6 +164,13 @@ public class Test {
         } else {
             System.out.println("#" + (tc) + " Fail " + answer + " != " + v3.getString());
         }
+    }
+
+    public static String RunDivide(String s1, String s2) {
+        BigValue v1 = new BigValue(s1);
+        BigValue v2 = new BigValue(s2);
+        BigValue v3 = v1.Divide(v2);
+        return v3.getString();
     }
 
 }
