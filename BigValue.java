@@ -335,7 +335,7 @@ public class BigValue {
         else if ( b_len > v.b_len ) { //v에 0이 더해져야 할 경우
             add2 = b_len - v.b_len;
         }
-        int len_point = 2; //이 정수를 바꾸면 몇 번째 자리까지 계산할지 정할 수 있음.
+        int len_point = 20; //이 정수를 바꾸면 몇 번째 자리까지 계산할지 정할 수 있음.
         String divided = "";
         invert(v, add2);
         int position = a_len - 1; //(this는 나누는 수.) divided가 this의 어떤 자리 숫자가 더해져야 하는지 그 위치.
@@ -363,7 +363,6 @@ public class BigValue {
                 }
             }
 
-            //저장 파트; setDigit을 어떻게 쓸 수 있을까요?
             if ( i < a_len + b_len + add1 ) {
                 value.a[i] = digit;
             }

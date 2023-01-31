@@ -46,7 +46,7 @@ public class MeanMedianMode {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner (System.in);
-        double[] arr = new double[] {8,10,8,5,4,7,5,10,8};
+        double[] arr = new double[] {20,43,74,89,75,60,31,43,37,36,50,38,21,99,93,45,64,92,38,60};
         String[] a = new String[arr.length];
         for ( int i = 0; i < arr.length; i++ ) {
             a[i] = String.valueOf(arr[i]);

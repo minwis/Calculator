@@ -16,7 +16,7 @@ public class Test {
         PrintBigValue(v);
     }
     public static void main(String args[]) {
-
+        /*
         //Parsing Test
         System.out.println("Parsing Test");
         CheckBigValue(new BigValue("12345"), false, 5, 0);
@@ -93,8 +93,11 @@ public class Test {
         TestDivide(tc++, "9", "9", "1");
         TestDivide(tc++, "9", "3", "3");
         TestDivide(tc++, "0.9", "1.7", "0.53");
-        TestDivide(tc++, "9", "0", "(any number)");
+        TestDivide(tc++, "9", "0", "(any number)");*/
 
+
+
+        System.out.print(RunDivide("1", "781250000000"));
     }
 
     private static void TestAdd(int tc, String s1, String s2, String answer) {

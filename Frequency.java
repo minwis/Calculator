@@ -28,9 +28,9 @@ public class Frequency {
 
         System.out.print("Width of a Class: ");
         double width_class = sc.nextInt(); //ex: 10
-        System.out.print("Minimum: ");
+        System.out.print("Lowest Class Limit: ");
         double min = sc.nextInt(); //ex: 20
-        System.out.print("Maximum: ");
+        System.out.print("Highest Class Limit: ");
         double max = sc.nextInt(); //ex: 60
 
         int[] frequencies = new int[(int)Math.round((max - min) / width_class)];
