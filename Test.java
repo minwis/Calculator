@@ -97,7 +97,7 @@ public class Test {
 
 
 
-        System.out.print(RunDivide("1", "781250000000"));
+        System.out.print(RunDivide("22", "7"));
     }
 
     private static void TestAdd(int tc, String s1, String s2, String answer) {
